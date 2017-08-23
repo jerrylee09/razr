@@ -1,6 +1,7 @@
 // The Circle Object
 function Circle(radius) {
 	this.radius = radius;
+	this.diameter = radius * 2;
 	this.getArea = function () {
 		return Math.PI * this.radius * 2
 	};
@@ -41,7 +42,6 @@ function generatorShapeSize(shape) {
         var newShape = new shape(ranNum / 2);
         if(newShape.hasOwnProperty('radius')) {
             newShape = new shape(ranNum / 2);
-            newShape.diameter = ranNum;
 		} else {
             newShape = new shape(ranNum);
 		}
@@ -55,7 +55,7 @@ function generatorShapeSize(shape) {
 window.onload = function () {
     function createShape(shape) {
         var shapeArray = generatorShapeSize(shape);
-        var deg = 0;
+
         shapeArray.sort(compare).forEach(function(obj) {
             var square = obj.length;
             var circle = obj.radius;
@@ -70,29 +70,33 @@ window.onload = function () {
             }
             if(circle) {
                 var diameter = obj.diameter;
-                var area = obj.getArea();
                 div.style.backgroundColor = "blue";
                 div.style.height = diameter + "px";
                 div.style.width = diameter + "px";
                 div.style.borderRadius = circle + "px";
             }
-
+            var deg = 0;
             setInterval(function(){
+                deg += 10;
                 div.style.transform  = 'rotate('+deg+'deg)';
-                ++deg;
-            }, 2000);
+
+                if (deg === 100) {
+                    deg = 0;
+				}
+
+            }, 500);
 
             document.getElementById("shapeList").appendChild(li);
         });
     }
-window.setInterval(function () {
     setInterval(function(){
 
         createShape(Square);
         createShape(Circle);
-    }, 1000);
 
-}, 1000);
+        createShape(Square);
+        createShape(Circle);
+    }, 1000);
 
 
 };
